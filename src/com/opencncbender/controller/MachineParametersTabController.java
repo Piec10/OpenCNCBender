@@ -6,6 +6,10 @@ import com.opencncbender.util.MultiTextFieldInputManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
+import java.util.Properties;
+
+import static com.opencncbender.util.PropertiesXMLWriter.storePropertiesToXML;
+
 public class MachineParametersTabController {
 
     private DataModel dataModel;
@@ -68,6 +72,15 @@ public class MachineParametersTabController {
             dataModel.getMachineGeometry().setPinRadius(newPinRadius);
             dataModel.getMachineGeometry().setPinOffset(newPinOffset);
             dataModel.getMachineGeometry().setPinSpacing(newPinSpacing);
+
+            Properties machineGeometry = new Properties();
+            machineGeometry.setProperty("bendingRadius",Double.toString(newBendingRadius));
+            machineGeometry.setProperty("rodRadius",Double.toString(newRodRadius));
+            machineGeometry.setProperty("pinRadius",Double.toString(newPinRadius));
+            machineGeometry.setProperty("pinOffset",Double.toString(newPinOffset));
+            machineGeometry.setProperty("pinSpacing",Double.toString(newPinSpacing));
+
+            storePropertiesToXML(machineGeometry,"machine_geometry.xml");
         }
     }
 }

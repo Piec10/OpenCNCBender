@@ -4,15 +4,10 @@ import com.opencncbender.model.DataModel;
 import com.opencncbender.util.InputType;
 import com.opencncbender.util.MultiTextFieldInputManager;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
+import java.util.Properties;
 
-import java.util.function.UnaryOperator;
-import java.util.regex.Pattern;
-
-import static com.opencncbender.util.isParsableToDoubleChecker.isParsableToDouble;
-import static com.opencncbender.util.isParsableToDoubleChecker.isParsableToPositiveDouble;
+import static com.opencncbender.util.PropertiesXMLWriter.storePropertiesToXML;
 
 public class WireParametersTabController {
 
@@ -34,18 +29,6 @@ public class WireParametersTabController {
             throw new IllegalStateException("Model can only be initialized once");
         }
         this.dataModel = dataModel;
-
-        Pattern pattern = Pattern.compile("");
-        TextFormatter formatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change ->
-                pattern.matcher(change.getControlNewText()).matches() ? change : null);
-
-        //wireDiameterTF.setTextFormatter(formatter);
-        //overbendAngleTF.setTextFormatter(formatter);
-
-        //wireDiameterTF.textProperty().bind(dataModel.getWireParameters().diameterProperty().asString());
-        //overbendAngleTF.textProperty().bind(dataModel.getWireParameters().overbendAngleProperty().asString());
-
-
 
         wireDiameterTF.setText(Double.toString(dataModel.getWireParameters().getDiameter()));
         overbendAngleTF.setText(Double.toString(dataModel.getWireParameters().getOverbendAngle()));
@@ -69,6 +52,12 @@ public class WireParametersTabController {
 
             dataModel.getWireParameters().setDiameter(newWireDiameter);
             dataModel.getWireParameters().setOverbendAngle(newOverbendAngle);
+
+            Properties wireParameters = new Properties();
+            wireParameters.setProperty("wireDiameter",Double.toString(newWireDiameter));
+            wireParameters.setProperty("overbendAngle",Double.toString(newOverbendAngle));
+
+            storePropertiesToXML(wireParameters,"wire_parameters.xml");
         }
     }
 }

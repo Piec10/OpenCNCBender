@@ -37,7 +37,7 @@ public class DataModel {
 
     private final AnimationController animationController = new AnimationController(this);
 
-    public DataModel(Properties defaultMachineGeometry) {
+    public DataModel(Properties defaultMachineGeometry, Properties defaultWireParameters) {
         selectedPointsList.addListener((ListChangeListener<Integer>) change ->{
             updateSelectionInfo();
         });
@@ -48,7 +48,8 @@ public class DataModel {
                 Double.parseDouble(defaultMachineGeometry.getProperty("pinOffset")),
                 Double.parseDouble(defaultMachineGeometry.getProperty("pinSpacing")));
 
-        this.wireParameters = new WireParameters(1.6, 22);
+        this.wireParameters = new WireParameters(Double.parseDouble(defaultWireParameters.getProperty("wireDiameter")),
+                Double.parseDouble(defaultWireParameters.getProperty("overbendAngle")));
 
     }
 
@@ -381,5 +382,13 @@ public class DataModel {
         machineGeometry.setRodRadius(Double.parseDouble(defaultMachineGeometry.getProperty("rodRadius")));
         machineGeometry.setPinSpacing(Double.parseDouble(defaultMachineGeometry.getProperty("pinSpacing")));
         machineGeometry.setPinOffset(Double.parseDouble(defaultMachineGeometry.getProperty("pinOffset")));
+    }
+
+    public void editSegment(Double distanceX, Double angleA, Double angleB) {
+
+        SingleStep editedStep = new SingleStep(distanceX,angleA,angleB);
+
+        bendingSteps.set(selectedStepIndex.get(),editedStep);
+        updatePolyline();
     }
 }

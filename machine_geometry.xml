@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
-<properties>
-<entry key="bendingRadius">7.5</entry>
-<entry key="pinSpacing">0.0</entry>
-<entry key="rodRadius">2.75</entry>
-<entry key="pinRadius">2.75</entry>
-<entry key="pinOffset">0.0</entry>
-</properties>

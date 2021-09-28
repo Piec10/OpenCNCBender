@@ -16,12 +16,17 @@
             <Separator orientation="VERTICAL" prefHeight="200.0" />
             <VBox alignment="BOTTOM_CENTER">
                <children>
-                  <HBox>
+                  <HBox spacing="2.0">
                      <children>
                         <VBox prefHeight="200.0" spacing="2.0">
                            <children>
-                              <Button maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" prefHeight="26.0" prefWidth="120.0" text="New segment" textAlignment="CENTER" wrapText="true" />
-                              <Button maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Edit segment" textAlignment="CENTER" />
+                              <Button maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleNewSegment" prefHeight="26.0" prefWidth="120.0" text="New segment" textAlignment="CENTER" wrapText="true" />
+                              <Button maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleEditSegment" prefHeight="26.0" prefWidth="100.0" text="Edit segment" textAlignment="CENTER" />
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#handleDeleteSegment" prefHeight="26.0" prefWidth="120.0" text="Delete segment" />
                            </children>
                         </VBox>
                      </children>

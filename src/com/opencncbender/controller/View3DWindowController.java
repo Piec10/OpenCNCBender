@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point3D;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SceneAntialiasing;
@@ -66,6 +67,7 @@ public class View3DWindowController {
     private final DoubleProperty distanceZ = new SimpleDoubleProperty(defaultViewDistanceZ);
     private final DoubleProperty panDistanceX = new SimpleDoubleProperty(defaultPanDistanceX);
     private final DoubleProperty panDistanceY = new SimpleDoubleProperty(defaultPanDistanceY);
+    private VBox vBox;
 
 
     public View3DWindowController() {
@@ -122,10 +124,11 @@ public class View3DWindowController {
 
         view3DPane.getChildren().add(subScene);
 
-        VBox vBox = new VBox();
+        vBox = new VBox();
         vBox.setSpacing(1);
         vBox.setPrefWidth(70);
         vBox.setManaged(false);
+
 
         Button isometricViewButton = new Button("Isometric");
         isometricViewButton.setOnAction(actionEvent -> setIsometricView());
@@ -139,7 +142,7 @@ public class View3DWindowController {
         frontViewButton.setOnAction(actionEvent -> setFrontView());
         frontViewButton.setMinWidth(vBox.getPrefWidth());
 
-        vBox.getChildren().addAll(isometricViewButton,topViewButton,frontViewButton);
+        //vBox.getChildren().addAll(isometricViewButton,topViewButton,frontViewButton);
 
         view3DPane.getChildren().add(vBox);
 
@@ -363,5 +366,9 @@ public class View3DWindowController {
     public void clear() {
         sphereList.clear();
         connectionsList.clear();
+    }
+
+    public VBox getVBox() {
+        return vBox;
     }
 }
