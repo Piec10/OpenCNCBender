@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane fx:id="rootPane" maxWidth="400.0" minWidth="33.0" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.opencncbender.controller.SidePanelController">
+   <children>
+      <TabPane fx:id="tabPane" side="LEFT" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+        <tabs>
+          <Tab fx:id="bendingStepsTab" text="Bending steps" />
+          <Tab fx:id="pointsTab" text="Points" />
+            <Tab fx:id="machineTab" text="Machine" />
+            <Tab fx:id="wireTab" text="Wire" />
+            <Tab fx:id="gCodeTab" text="G-code" />
+        </tabs>
+      </TabPane>
+      <HBox alignment="CENTER_LEFT" maxHeight="30.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button fx:id="toggleExpandButton" maxWidth="31.0" minWidth="31.0" mnemonicParsing="false" onAction="#handleToggleExpanded" text="&lt;" HBox.hgrow="NEVER" />
+         </children>
+         <padding>
+            <Insets left="1.0" />
+         </padding>
+      </HBox>
+   </children>
+</AnchorPane>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.opencncbender.controller.BendingStepsTableTabController">
+   <children>
+      <TableView fx:id="manualStepsTableView" layoutX="10.0" layoutY="10.0" prefHeight="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <columns>
+            <TableColumn fx:id="LengthXColumn" editable="false" maxWidth="1000.0" prefWidth="100.0" sortable="false" text="Length X" />
+            <TableColumn fx:id="AngleAColumn" editable="false" maxWidth="1000.0" prefWidth="100.0" sortable="false" text="Angle A" />
+            <TableColumn fx:id="AngleBColumn" editable="false" maxWidth="1000.0" prefWidth="100.0" sortable="false" text="Angle B" />
+         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+   </children>
+</AnchorPane>
