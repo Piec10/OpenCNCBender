@@ -6,5 +6,6 @@ module com.opencncbender {
     requires java.scripting;
 
     opens com.opencncbender.controller to javafx.fxml;
+
     exports com.opencncbender;
 }

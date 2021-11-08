@@ -71,7 +71,7 @@
                             <release>${maven.compiler.release}</release>
                             <jlinkImageName>OpenCNCBender</jlinkImageName>
                             <launcher>OpenCNCBender</launcher>
-                            <mainClass>com.opencncbender.MainApp</mainClass>
+                            <mainClass>com.opencncbender/com.opencncbender.MainApp</mainClass>
                         </configuration>
                     </execution>
                 </executions>
@@ -84,7 +84,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.opencncbender.MainApp</mainClass>
+                            <mainClass>com.opencncbender/com.opencncbender.MainApp</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

@@ -138,7 +138,7 @@ public class MainAppWindow {
 
         try {
             FXMLLoader segmentEditWindowLoader = new FXMLLoader();
-            segmentEditWindowLoader.setLocation(getClass().getClassLoader().getResource("fxml/SegmentEditWindow.fxml"));
+            segmentEditWindowLoader.setLocation(getClass().getResource("/fxml/SegmentEditWindow.fxml"));
             TitledPane pane = segmentEditWindowLoader.load();
             SegmentEditWindowController segmentEditWindowController = segmentEditWindowLoader.getController();
             segmentEditWindowController.initModel(dataModel, type, this);
@@ -166,7 +166,7 @@ public class MainAppWindow {
 
         try {
             FXMLLoader gCodePreviewWindowLoader = new FXMLLoader();
-            gCodePreviewWindowLoader.setLocation(MainApp.class.getResource("/fxml/GCodePreviewWindow.fxml"));
+            gCodePreviewWindowLoader.setLocation(getClass().getResource("/fxml/GCodePreviewWindow.fxml"));
             AnchorPane pane = gCodePreviewWindowLoader.load();
             GCodePreviewWindowController gCodePreviewWindowController = gCodePreviewWindowLoader.getController();
 
