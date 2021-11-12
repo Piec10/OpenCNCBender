@@ -26,8 +26,8 @@ public class GCodeGenerator {
     private double rodTouchAngle;           // bending head angle position when touching straight wire
     private double pinTouchPosition;        // bending head Y position when pin is touching straight wire
 
-    private StringProperty startingGCode = new SimpleStringProperty();
-    private StringProperty endingGCode = new SimpleStringProperty();
+    private StringProperty startingGCode = new SimpleStringProperty("");
+    private StringProperty endingGCode = new SimpleStringProperty("");
 
     private List<String> instructionsList;
 
@@ -66,13 +66,13 @@ public class GCodeGenerator {
             startingGCode.set(defaultGCodeSettings.getProperty("startingGCode"));
         }
         catch (Exception e){
-
+            startingGCode.set("");
         }
         try{
             endingGCode.set(defaultGCodeSettings.getProperty("endingGCode"));
         }
         catch (Exception e){
-
+            endingGCode.set("");
         }
     }
 

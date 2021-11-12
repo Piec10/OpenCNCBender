@@ -48,7 +48,7 @@ public class MainApp extends Application {
 
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning!");
-            alert.setHeaderText("Exception occurred when loading machine_geometry.xml");
+            alert.setHeaderText("No machine geometry settings found.");
             alert.setContentText("Default geometry will be created. Please check it!");
             alert.showAndWait();
 
@@ -67,7 +67,7 @@ public class MainApp extends Application {
 
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning!");
-            alert.setHeaderText("Exception occurred when loading wire_parameters.xml");
+            alert.setHeaderText("No wire parameters found.");
             alert.setContentText("Default parameters will be created. Please check it!");
             alert.showAndWait();
 
@@ -86,7 +86,7 @@ public class MainApp extends Application {
 
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning!");
-            alert.setHeaderText("Exception occurred when loading gcode_settings.xml");
+            alert.setHeaderText("No G-code settings found.");
             alert.setContentText("Default settings will be created. Please check it!");
             alert.showAndWait();
 
@@ -96,7 +96,7 @@ public class MainApp extends Application {
             //TODO: Wire parameters wizard
         }
 
-        DataModel dataModel = new DataModel(defaultMachineGeometry,defaultWireParameters,defaultGCodeSettings);
+        DataModel dataModel = new DataModel(defaultMachineGeometry,defaultWireParameters,defaultGCodeSettings,this);
 
         boolean previewWindowDefaultValue;
         try{
@@ -118,6 +118,8 @@ public class MainApp extends Application {
 
         //dialogStage.close();
         new MainAppWindow(primaryStage, dataModel, previewWindowDefaultValue);
+
+
     }
 
     private void createDefaultGCodeSettings(Properties defaultGCodeSettings) {

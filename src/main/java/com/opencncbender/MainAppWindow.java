@@ -47,7 +47,9 @@ public class MainAppWindow {
 
             FXMLLoader ribbonLoader = new FXMLLoader();
             ribbonLoader.setLocation(getClass().getResource("/fxml/Ribbon.fxml"));
-            mainWindowController.getvBox().getChildren().add(ribbonLoader.load());
+            //mainWindowController.getvBox().getChildren().add(ribbonLoader.load());
+            //mainWindowController.gethBox().getChildren().add(ribbonLoader.load());
+            mainWindowController.getRibbonPane().setContent(ribbonLoader.load());
             ribbonController = ribbonLoader.getController();
 
             FXMLLoader sidePanelLoader = new FXMLLoader();

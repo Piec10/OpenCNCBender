@@ -9,10 +9,11 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -31,6 +32,12 @@ public class MainWindowController {
     private VBox vBox;
 
     @FXML
+    private HBox hBox;
+
+    @FXML
+    private ScrollPane ribbonPane;
+
+    @FXML
     private MenuBar menuBar;
 
     @FXML
@@ -39,6 +46,9 @@ public class MainWindowController {
     @FXML
     private void initialize() {
         infoLabel.setText("CNCBender by @mateusz_piecka");
+        ribbonPane.setPadding(new Insets(0));
+        ribbonPane.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT,new CornerRadii(0),new Insets(0))));
+
     }
 
     public void initModel(DataModel dataModel, MainAppWindow mainAppWindow, boolean previewWindowDefaultValue) {
@@ -125,6 +135,14 @@ public class MainWindowController {
 
     public VBox getvBox() {
         return vBox;
+    }
+
+    public HBox gethBox() {
+        return hBox;
+    }
+
+    public ScrollPane getRibbonPane() {
+        return ribbonPane;
     }
 
     public BooleanProperty showPreviewWindowProperty() {
