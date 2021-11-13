@@ -1,6 +1,5 @@
 package com.opencncbender.model;
 
-import com.opencncbender.MainApp;
 import com.opencncbender.logic.*;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -16,7 +15,6 @@ import java.util.List;
 import java.util.Properties;
 
 import static com.opencncbender.util.IsZeroComparator.isZero;
-import static com.opencncbender.util.PropertiesXMLWriter.storePropertiesToXML;
 
 public class DataModel {
 
@@ -40,9 +38,7 @@ public class DataModel {
 
     private final AnimationController animationController = new AnimationController(this);
 
-    private MainApp mainApp;
-
-    public DataModel(Properties defaultMachineGeometry, Properties defaultWireParameters, Properties defaultGCodeSettings, MainApp mainApp) {
+    public DataModel(Properties defaultMachineGeometry, Properties defaultWireParameters, Properties defaultGCodeSettings) {
         selectedPointsList.addListener((ListChangeListener<Integer>) change ->{
             updateSelectionInfo();
         });
@@ -50,13 +46,8 @@ public class DataModel {
         this.machineGeometry = new MachineGeometry(defaultMachineGeometry);
 
         this.wireParameters = new WireParameters(defaultWireParameters);
-        this.gCodeGenerator = new GCodeGenerator(defaultGCodeSettings, machineGeometry, wireParameters,
-                5,
-                5,
-                10000,
-                18000);
+        this.gCodeGenerator = new GCodeGenerator(defaultGCodeSettings, machineGeometry, wireParameters);
 
-        this.mainApp = mainApp;
     }
 
     public MachineGeometry getMachineGeometry() {

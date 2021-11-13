@@ -97,15 +97,10 @@ public class MainApp extends Application {
             //TODO: Wire parameters wizard
         }
 
-        DataModel dataModel = new DataModel(defaultMachineGeometry,defaultWireParameters,defaultGCodeSettings,this);
+        DataModel dataModel = new DataModel(defaultMachineGeometry,defaultWireParameters,defaultGCodeSettings);
 
-        boolean previewWindowDefaultValue;
-        try{
-            previewWindowDefaultValue = Boolean.parseBoolean(defaultGCodeSettings.getProperty("showPreviewWindow"));
-        }
-        catch (Exception e){
-            previewWindowDefaultValue = false;
-        }
+        boolean previewWindowDefaultValue = Boolean.parseBoolean(defaultGCodeSettings.getProperty("showPreviewWindow","false"));
+
 
         //PauseTransition pauseTransition = new PauseTransition(Duration.seconds(3));
         //pauseTransition.play();
@@ -126,6 +121,12 @@ public class MainApp extends Application {
     private void createDefaultGCodeSettings(Properties defaultGCodeSettings) {
 
         defaultGCodeSettings.setProperty("showPreviewWindow","false");
+        defaultGCodeSettings.setProperty("startingGCode","");
+        defaultGCodeSettings.setProperty("endingGCode","");
+        defaultGCodeSettings.setProperty("zFallDistance","5.0");
+        defaultGCodeSettings.setProperty("safeAngleOffset","5.0");
+        defaultGCodeSettings.setProperty("wireFeedrate","10000.0");
+        defaultGCodeSettings.setProperty("angleFeedrate","18000.0");
     }
 
     private void createDefaultWireParameters(Properties defaultWireParameters) {

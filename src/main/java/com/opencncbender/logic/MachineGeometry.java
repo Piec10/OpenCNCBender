@@ -35,11 +35,11 @@ public class MachineGeometry {
 
     public MachineGeometry(Properties defaultMachineGeometry) {
 
-        this.bendingRadius.set(Double.parseDouble(defaultMachineGeometry.getProperty("bendingRadius")));
-        this.rodRadius.set(Double.parseDouble(defaultMachineGeometry.getProperty("rodRadius")));
-        this.pinRadius.set(Double.parseDouble(defaultMachineGeometry.getProperty("pinRadius")));
-        this.pinOffset.set(Double.parseDouble(defaultMachineGeometry.getProperty("pinOffset")));
-        this.pinSpacing.set(Double.parseDouble(defaultMachineGeometry.getProperty("pinSpacing")));
+        this.bendingRadius.set(Double.parseDouble(defaultMachineGeometry.getProperty("bendingRadius","7.5")));
+        this.rodRadius.set(Double.parseDouble(defaultMachineGeometry.getProperty("rodRadius","2.75")));
+        this.pinRadius.set(Double.parseDouble(defaultMachineGeometry.getProperty("pinRadius","2.75")));
+        this.pinOffset.set(Double.parseDouble(defaultMachineGeometry.getProperty("pinOffset","0.0")));
+        this.pinSpacing.set(Double.parseDouble(defaultMachineGeometry.getProperty("pinSpacing","0.0")));
     }
 
     public double getBendingRadius() {

@@ -1,8 +1,9 @@
 package com.opencncbender.controller;
 
 import com.opencncbender.model.DataModel;
+import com.opencncbender.util.InputType;
+import com.opencncbender.util.MultiTextFieldInputManager;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
 import java.util.Properties;
@@ -48,88 +49,23 @@ public class MachineGeometryTabController {
 
     public void handleSaveParameters() {
 
-        Double newBendingRadius = null;
-        Double newRodRadius = null;
-        Double newPinRadius = null;
-        Double newPinOffset = null;
-        Double newPinSpacing = null;
+        MultiTextFieldInputManager manager = new MultiTextFieldInputManager();
 
-        boolean wrongInput = false;
-        StringBuilder inputErrorMessage = new StringBuilder();
+        manager.check("Bending radius", bendingRadiusTF.getText(), InputType.POSITIVE_DOUBLE);
+        manager.check("Rod radius", rodRadiusTF.getText(), InputType.POSITIVE_DOUBLE);
+        manager.check("Pin radius", pinRadiusTF.getText(), InputType.POSITIVE_DOUBLE);
+        manager.check("Pin offset", pinOffsetTF.getText(), InputType.DOUBLE);
+        manager.check("Pin spacing", pinSpacingTF.getText(), InputType.ZERO_POSITIVE_DOUBLE);
 
-        try{
-            newBendingRadius = Double.parseDouble(bendingRadiusTF.getText());
-            if(newBendingRadius <= 0){
-                wrongInput = true;
-                inputErrorMessage.append("Bending radius value must be greater than 0.");
-                inputErrorMessage.append(System.lineSeparator());
-            }
-        }
-        catch(Exception e){
-            wrongInput = true;
-            inputErrorMessage.append("Bending radius value is incorrect.");
-            inputErrorMessage.append(System.lineSeparator());
-        }
-        try{
-            newRodRadius = Double.parseDouble(rodRadiusTF.getText());
-            if(newRodRadius <= 0){
-                wrongInput = true;
-                inputErrorMessage.append("Rod radius value must be greater than 0.");
-                inputErrorMessage.append(System.lineSeparator());
-            }
-        }
-        catch(Exception e){
-            wrongInput = true;
-            inputErrorMessage.append("Rod radius value is incorrect.");
-            inputErrorMessage.append(System.lineSeparator());
-        }
-        try{
-            newPinRadius = Double.parseDouble(pinRadiusTF.getText());
-            if(newPinRadius <= 0){
-                wrongInput = true;
-                inputErrorMessage.append("Pin radius value must be greater than 0.");
-                inputErrorMessage.append(System.lineSeparator());
-            }
-        }
-        catch(Exception e){
-            wrongInput = true;
-            inputErrorMessage.append("Pin radius value is incorrect.");
-            inputErrorMessage.append(System.lineSeparator());
-        }
-        try{
-            newPinOffset = Double.parseDouble(pinOffsetTF.getText());
-        }
-        catch(Exception e){
-            wrongInput = true;
-            inputErrorMessage.append("Pin offset value is incorrect.");
-            inputErrorMessage.append(System.lineSeparator());
-        }
-        try{
-            newPinSpacing = Double.parseDouble(pinSpacingTF.getText());
-            if(newPinSpacing <= 0){
-                wrongInput = true;
-                inputErrorMessage.append("Pin spacing value must be greater than 0.");
-                inputErrorMessage.append(System.lineSeparator());
-            }
-        }
-        catch(Exception e){
-            wrongInput = true;
-            inputErrorMessage.append("Pin spacing value is incorrect.");
-            inputErrorMessage.append(System.lineSeparator());
-        }
-
-        if(wrongInput){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Input error");
-            alert.setHeaderText(inputErrorMessage.toString());
-            alert.showAndWait();
+        if(manager.isInputIncorrect()){
+            manager.getAlert().showAndWait();
         }
         else{
-            dataModel.getMachineGeometry().setBendingRadius(newBendingRadius);
-            dataModel.getMachineGeometry().setRodRadius(newRodRadius);
-            dataModel.getMachineGeometry().setPinRadius(newPinRadius);
-            dataModel.getMachineGeometry().setPinOffset(newPinOffset);
-            dataModel.getMachineGeometry().setPinSpacing(newPinSpacing);
+            dataModel.getMachineGeometry().setBendingRadius(manager.getParsedValue());
+            dataModel.getMachineGeometry().setRodRadius(manager.getParsedValue());
+            dataModel.getMachineGeometry().setPinRadius(manager.getParsedValue());
+            dataModel.getMachineGeometry().setPinOffset(manager.getParsedValue());
+            dataModel.getMachineGeometry().setPinSpacing(manager.getParsedValue());
 
             Properties machineGeometry = dataModel.getMachineGeometry().getMachineGeometryProperties();
             storePropertiesToXML(machineGeometry,"machine_geometry.xml");

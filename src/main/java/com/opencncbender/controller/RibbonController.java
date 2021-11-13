@@ -12,13 +12,11 @@ public class RibbonController {
 
     @FXML
     private void handleNewSegment() {
-
         mainAppWindow.openSegmentWindow(ActionType.NEW);
     }
 
     @FXML
     private void handleEditSegment() {
-
         mainAppWindow.openSegmentWindow(ActionType.EDIT);
     }
 
@@ -29,7 +27,8 @@ public class RibbonController {
 
     @FXML
     private void handleAddIntermediatePoints(){
-        dataModel.addIntermediatePoints();
+        mainAppWindow.openPreferredDistanceWindow();
+        //dataModel.addIntermediatePoints();
     }
 
     @FXML

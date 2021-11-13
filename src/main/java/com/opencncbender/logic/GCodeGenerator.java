@@ -62,18 +62,20 @@ public class GCodeGenerator {
         this.wireFeedrate = wireFeedrate;
         this.angleFeedrate = angleFeedrate;
 
-        try{
-            startingGCode.set(defaultGCodeSettings.getProperty("startingGCode"));
-        }
-        catch (Exception e){
-            startingGCode.set("");
-        }
-        try{
-            endingGCode.set(defaultGCodeSettings.getProperty("endingGCode"));
-        }
-        catch (Exception e){
-            endingGCode.set("");
-        }
+        startingGCode.set(defaultGCodeSettings.getProperty("startingGCode",""));
+        endingGCode.set(defaultGCodeSettings.getProperty("endingGCode",""));
+    }
+
+    public GCodeGenerator(Properties defaultGCodeSettings, MachineGeometry machineGeometry, WireParameters wireParameters) {
+        this.machineGeometry = machineGeometry;
+        this.wireParameters = wireParameters;
+
+        zFallDistance = Double.parseDouble(defaultGCodeSettings.getProperty("zFallDistance","5.0"));
+        rodSafeAngleOffset = Double.parseDouble(defaultGCodeSettings.getProperty("safeAngleOffset","5.0"));
+        wireFeedrate = Double.parseDouble(defaultGCodeSettings.getProperty("wireFeedrate","10000.0"));
+        angleFeedrate = Double.parseDouble(defaultGCodeSettings.getProperty("angleFeedrate","18000.0"));
+        startingGCode.set(defaultGCodeSettings.getProperty("startingGCode",""));
+        endingGCode.set(defaultGCodeSettings.getProperty("endingGCode",""));
     }
 
     private void calculateRodTouchAngle() {
@@ -119,7 +121,10 @@ public class GCodeGenerator {
         totalWireLength = totalWireLength + 2;
         totalWireLength = Math.floor(totalWireLength);
 
-        instructionsList.add(startingGCode.get());
+        if(startingGCode.get() != "") {
+            instructionsList.add(startingGCode.get());
+        }
+
         instructionsList.add("G0 X" + totalWireLength);
         instructionsList.add("M0");
 
@@ -178,7 +183,9 @@ public class GCodeGenerator {
                 //instructionsList.addStep("M0");
             }
         }
-        instructionsList.add(endingGCode.get());
+        if(endingGCode.get() != "") {
+            instructionsList.add(endingGCode.get());
+        }
 
         return instructionsList;
     }
@@ -277,12 +284,32 @@ public class GCodeGenerator {
         return angleFeedrate;
     }
 
+    public void setzFallDistance(double zFallDistance) {
+        this.zFallDistance = zFallDistance;
+    }
+
+    public void setRodSafeAngleOffset(double rodSafeAngleOffset) {
+        this.rodSafeAngleOffset = rodSafeAngleOffset;
+    }
+
+    public void setWireFeedrate(double wireFeedrate) {
+        this.wireFeedrate = wireFeedrate;
+    }
+
+    public void setAngleFeedrate(double angleFeedrate) {
+        this.angleFeedrate = angleFeedrate;
+    }
+
     public Properties getGCodeProperties() {
 
         Properties properties = new Properties();
 
         properties.setProperty("startingGCode",startingGCode.get());
         properties.setProperty("endingGCode",endingGCode.get());
+        properties.setProperty("zFallDistance",Double.toString(zFallDistance));
+        properties.setProperty("safeAngleOffset",Double.toString(rodSafeAngleOffset));
+        properties.setProperty("wireFeedrate",Double.toString(wireFeedrate));
+        properties.setProperty("angleFeedrate",Double.toString(angleFeedrate));
 
         return properties;
     }

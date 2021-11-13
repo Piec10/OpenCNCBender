@@ -20,13 +20,7 @@ public class WireParameters {
 
     public WireParameters(Properties defaultWireParameters) {
 
-        try{
-            double diameterParam = Double.parseDouble(defaultWireParameters.getProperty("wireDiameter"));
-            this.diameter.set(diameterParam);
-        }
-        catch(Exception e){
-            this.diameter.set(1.0);
-        }
+        this.diameter.set(Double.parseDouble(defaultWireParameters.getProperty("wireDiameter","1.0")));
 
         int i=0;
         while(true){

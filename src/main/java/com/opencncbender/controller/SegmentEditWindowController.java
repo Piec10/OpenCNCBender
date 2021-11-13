@@ -3,11 +3,11 @@ package com.opencncbender.controller;
 import com.opencncbender.MainAppWindow;
 import com.opencncbender.model.DataModel;
 import com.opencncbender.util.ActionType;
+import com.opencncbender.util.InputType;
+import com.opencncbender.util.MultiTextFieldInputManager;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 
 
 public class SegmentEditWindowController {
@@ -24,6 +24,9 @@ public class SegmentEditWindowController {
     private Button okButton;
 
     @FXML
+    private Label titleLabel;
+
+    @FXML
     private TextField distanceXTF;
 
     @FXML
@@ -32,13 +35,18 @@ public class SegmentEditWindowController {
     @FXML
     private TextField angleBTF;
 
+    @FXML
+    private HBox spacer;
+
+    @FXML
+    private HBox title;
+
     private MainAppWindow mainAppWindow;
 
     private ActionType type;
 
     @FXML
     private void handleClose(){
-
         closeWindow();
     }
 
@@ -53,30 +61,30 @@ public class SegmentEditWindowController {
         switch (type){
             case NEW:
 
-                titledPane.setText("New segment");
+                titleLabel.setText("New segment");
                 applyButton.setText("Add");
 
                 applyButton.setOnAction(actionEvent -> {
-                    addNewSegment();
+                    manageSegment();
                     distanceXTF.requestFocus();
                 });
 
                 okButton.setOnAction(actionEvent -> {
-                    addNewSegment();
+                    manageSegment();
                     closeWindow();
                 });
                 break;
             case EDIT:
 
-                titledPane.setText("Edit segment");
+                titleLabel.setText("Edit segment");
                 applyButton.setText("Save");
 
                 applyButton.setOnAction(actionEvent -> {
-                    editSegment();
+                    manageSegment();
                 });
 
                 okButton.setOnAction(actionEvent -> {
-                    editSegment();
+                    manageSegment();
                     closeWindow();
                 });
 
@@ -97,6 +105,10 @@ public class SegmentEditWindowController {
                     if (newStep == null) {
                         okButton.setDisable(true);
                         applyButton.setDisable(true);
+
+                        distanceXTF.setText("0");
+                        angleATF.setText("0");
+                        angleBTF.setText("0");
                     } else {
                         okButton.setDisable(false);
                         applyButton.setDisable(false);
@@ -108,82 +120,28 @@ public class SegmentEditWindowController {
                 });
                 break;
         }
+        title.minWidthProperty().bind(titledPane.widthProperty());
+        spacer.setMaxWidth(Double.MAX_VALUE);
     }
 
-    private void editSegment() {
-        manageSegment(ActionType.EDIT);
-    }
+    private void manageSegment(){
 
-    private void addNewSegment() {
-        manageSegment(ActionType.NEW);
-    }
+        MultiTextFieldInputManager manager = new MultiTextFieldInputManager();
 
-    private void manageSegment(ActionType actionType){
-        Double distanceX = null;
-        Double angleA = null;
-        Double angleB = null;
+        manager.check("Distance X", distanceXTF.getText(), InputType.POSITIVE_DOUBLE);
+        manager.check("Angle A", angleATF.getText(), InputType.PLUS_MINUS_180_DOUBLE);
+        manager.check("Angle B", angleBTF.getText(), InputType.PLUS_MINUS_180_DOUBLE);
 
-        boolean wrongInput = false;
-        StringBuilder inputErrorMessage = new StringBuilder();
-
-        try {
-            distanceX = Double.parseDouble(distanceXTF.getText());
-
-            if(distanceX <= 0){
-                wrongInput = true;
-                inputErrorMessage.append("Distance X value must be greater than 0.");
-                inputErrorMessage.append(System.lineSeparator());
-            }
-        }
-        catch(Exception e){
-            wrongInput = true;
-            inputErrorMessage.append("Distance X value is incorrect.");
-            inputErrorMessage.append(System.lineSeparator());
-        }
-
-        try {
-            angleA = Double.parseDouble(angleATF.getText());
-
-            if((angleA <= -180)||(angleA >= 180)){
-                wrongInput = true;
-                inputErrorMessage.append("Angle A value must be between -180 and 180.");
-                inputErrorMessage.append(System.lineSeparator());
-            }
-        }
-        catch(Exception e){
-            wrongInput = true;
-            inputErrorMessage.append("Angle A value is incorrect.");
-            inputErrorMessage.append(System.lineSeparator());
-        }
-
-        try {
-            angleB = Double.parseDouble(angleBTF.getText());
-
-            if((angleB <= -180)||(angleB >= 180)){
-                wrongInput = true;
-                inputErrorMessage.append("Angle B value must be between -180 and 180.");
-                inputErrorMessage.append(System.lineSeparator());
-            }
-        }
-        catch(Exception e){
-            wrongInput = true;
-            inputErrorMessage.append("Angle B value is incorrect.");
-            inputErrorMessage.append(System.lineSeparator());
-        }
-
-        if(wrongInput){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Input error");
-            alert.setHeaderText(inputErrorMessage.toString());
-            alert.showAndWait();
+        if(manager.isInputIncorrect()){
+            manager.getAlert().showAndWait();
         }
         else{
             switch (type) {
                 case NEW:
-                    dataModel.addManualStep(distanceX, angleA, angleB);
+                    dataModel.addManualStep(manager.getParsedValue(), manager.getParsedValue(), manager.getParsedValue());
                     break;
                 case EDIT:
-                    dataModel.editSegment(distanceX, angleA, angleB);
+                    dataModel.editSegment(manager.getParsedValue(), manager.getParsedValue(), manager.getParsedValue());
                     break;
             }
         }
@@ -198,7 +156,6 @@ public class SegmentEditWindowController {
     }
 
     private void closeWindow() {
-
         mainAppWindow.close(this);
     }
 }

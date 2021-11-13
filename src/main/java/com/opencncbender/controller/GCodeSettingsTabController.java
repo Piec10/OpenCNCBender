@@ -1,6 +1,8 @@
 package com.opencncbender.controller;
 
 import com.opencncbender.model.DataModel;
+import com.opencncbender.util.InputType;
+import com.opencncbender.util.MultiTextFieldInputManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
@@ -57,8 +59,25 @@ public class GCodeSettingsTabController {
         dataModel.getGCodeGenerator().setStartingGCode(startingGCodeTA.getText());
         dataModel.getGCodeGenerator().setEndingGCode(endingGCodeTA.getText());
 
-        Properties gCodeProperties = dataModel.getGCodeGenerator().getGCodeProperties();
-        gCodeProperties.setProperty("showPreviewWindow", String.valueOf(showPreviewCB.selectedProperty().get()));
-        storePropertiesToXML(gCodeProperties,"gcode_settings.xml");
+        MultiTextFieldInputManager manager = new MultiTextFieldInputManager();
+
+        manager.check("Z fall distance",zFallDistanceTF.getText(), InputType.DOUBLE);
+        manager.check("Safe angle offset",safeAngleOffsetTF.getText(),InputType.ZERO_POSITIVE_DOUBLE);
+        manager.check("Wire feedrate",wireFeedrateTF.getText(),InputType.POSITIVE_DOUBLE);
+        manager.check("Angle feedrate",angleFeedrateTF.getText(),InputType.POSITIVE_DOUBLE);
+
+        if(manager.isInputIncorrect()){
+            manager.getAlert().showAndWait();
+        }
+        else{
+            dataModel.getGCodeGenerator().setzFallDistance(manager.getParsedValue());
+            dataModel.getGCodeGenerator().setRodSafeAngleOffset(manager.getParsedValue());
+            dataModel.getGCodeGenerator().setWireFeedrate(manager.getParsedValue());
+            dataModel.getGCodeGenerator().setAngleFeedrate(manager.getParsedValue());
+
+            Properties gCodeProperties = dataModel.getGCodeGenerator().getGCodeProperties();
+            gCodeProperties.setProperty("showPreviewWindow", String.valueOf(showPreviewCB.selectedProperty().get()));
+            storePropertiesToXML(gCodeProperties,"gcode_settings.xml");
+        }
     }
 }

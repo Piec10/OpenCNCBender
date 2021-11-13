@@ -18,6 +18,7 @@ public class MainAppWindow {
 
     private boolean newSegmentWindowOpened = false;
     private boolean editSegmentWindowOpened = false;
+    private boolean prefferedDistanceWindowOpened = false;
 
 
     public MainAppWindow(Stage primaryStage, DataModel dataModel, boolean previewWindowDefaultValue) {
@@ -120,18 +121,14 @@ public class MainAppWindow {
         switch (type){
             case NEW:
                 if(!newSegmentWindowOpened){
-                    vBox.getChildren().clear();
-                    editSegmentWindowOpened = false;
                     createSegmentWindow(type);
                     newSegmentWindowOpened = true;
                 }
                 break;
             case EDIT:
                 if(!editSegmentWindowOpened){
-                vBox.getChildren().clear();
-                newSegmentWindowOpened = false;
-                createSegmentWindow(type);
-                editSegmentWindowOpened = true;
+                    createSegmentWindow(type);
+                    editSegmentWindowOpened = true;
             }
         }
     }
@@ -185,5 +182,27 @@ public class MainAppWindow {
         catch (Exception e){
 
         }
+    }
+
+    public void openPreferredDistanceWindow() {
+
+        try{
+            FXMLLoader prefDistWindowLoader = new FXMLLoader();
+            prefDistWindowLoader.setLocation(getClass().getResource("/fxml/PreferredDistanceWindow.fxml"));
+            TitledPane pane = prefDistWindowLoader.load();
+            PreferredDistanceWindowController preferredDistanceWindowController = prefDistWindowLoader.getController();
+            preferredDistanceWindowController.initModel(dataModel,this);
+
+            vBox.getChildren().add(pane);
+            prefferedDistanceWindowOpened = true;
+        }
+        catch (Exception e){
+
+        }
+    }
+
+    public void close(PreferredDistanceWindowController preferredDistanceWindowController) {
+        vBox.getChildren().remove(preferredDistanceWindowController.getTitledPane());
+        prefferedDistanceWindowOpened = false;
     }
 }

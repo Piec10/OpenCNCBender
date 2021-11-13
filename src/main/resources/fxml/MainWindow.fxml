@@ -37,17 +37,19 @@
                   </MenuBar>
                   <HBox fx:id="hBox" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <AnchorPane maxWidth="380.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="115.0" prefWidth="400.0">
+                        <AnchorPane maxWidth="380.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="115.0" prefWidth="400.0" />
+                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                        <ScrollPane fx:id="ribbonPane" fitToHeight="true" vbarPolicy="NEVER" HBox.hgrow="ALWAYS" />
+                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                        <AnchorPane prefWidth="70.0">
                            <children>
-                              <ImageView fitHeight="150.0" fitWidth="70.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0">
+                              <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="22.5" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="22.5">
                                  <image>
                                     <Image url="@../images/logo.png" />
                                  </image>
                               </ImageView>
                            </children>
                         </AnchorPane>
-                        <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <ScrollPane fx:id="ribbonPane" vbarPolicy="NEVER" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                </children>

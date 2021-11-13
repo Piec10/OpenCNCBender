@@ -4,9 +4,12 @@ import com.opencncbender.logic.SingleStep;
 import com.opencncbender.model.DataModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import javafx.geometry.Point3D;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
 
 import java.util.Locale;
 
@@ -49,6 +52,18 @@ public class BendingStepsTableTabController {
         manualStepsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldStep, newStep) -> {
             dataModel.setSelectedStep(newStep);
             dataModel.setSelectedStepIndex(manualStepsTableView.getSelectionModel().selectedIndexProperty().get());
+        });
+
+        manualStepsTableView.setRowFactory(tableView -> {
+            final TableRow<SingleStep> row = new TableRow<>();
+            row.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+                final int index = row.getIndex();
+                if (index >= 0 && index < tableView.getItems().size() && tableView.getSelectionModel().isSelected(index)  ) {
+                    tableView.getSelectionModel().clearSelection(index);
+                    event.consume();
+                }
+            });
+            return row;
         });
 
         /*dataModel.selectedStepProperty().addListener((obs, oldStep, newStep) -> {

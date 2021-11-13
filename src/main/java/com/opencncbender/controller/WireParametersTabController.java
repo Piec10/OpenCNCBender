@@ -2,6 +2,8 @@ package com.opencncbender.controller;
 
 import com.opencncbender.logic.CompensationValuePair;
 import com.opencncbender.model.DataModel;
+import com.opencncbender.util.InputType;
+import com.opencncbender.util.MultiTextFieldInputManager;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -95,47 +97,16 @@ public class WireParametersTabController {
 
     public void handleAddOrChange(){
 
-        Double angle = null;
-        Double compensationAngle = null;
-        boolean wrongInput = false;
-        StringBuilder inputErrorMessage = new StringBuilder();
+        MultiTextFieldInputManager manager = new MultiTextFieldInputManager();
 
-        try {
-            angle = Double.parseDouble(newAngleTF.getText());
+        manager.check("Angle", newAngleTF.getText(),InputType.PLUS_MINUS_180_DOUBLE);
+        manager.check("Compensation angle",newCompAngleTF.getText(),InputType.PLUS_MINUS_180_DOUBLE);
 
-            if((angle <= -180)||(angle >= 180)){
-                wrongInput = true;
-                inputErrorMessage.append("Angle value must be between -180 and 180. ");
-                inputErrorMessage.append(System.lineSeparator());
-            }
-        }
-        catch(Exception e){
-            wrongInput = true;
-            inputErrorMessage.append("Angle value is incorrect. ");
-            inputErrorMessage.append(System.lineSeparator());
-        }
-        try {
-            compensationAngle = Double.parseDouble(newCompAngleTF.getText());
-
-            if((compensationAngle <= -180)||(compensationAngle >= 180)){
-                wrongInput = true;
-                inputErrorMessage.append("Compensation angle value must be between -180 and 180. ");
-                inputErrorMessage.append(System.lineSeparator());
-            }
-        }
-        catch(Exception e){
-            wrongInput = true;
-            inputErrorMessage.append("Compensation angle value is incorrect. ");
-            inputErrorMessage.append(System.lineSeparator());
-        }
-        if(wrongInput){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Input error");
-            alert.setHeaderText(inputErrorMessage.toString());
-            alert.showAndWait();
+        if(manager.isInputIncorrect()){
+            manager.getAlert().showAndWait();
         }
         else{
-            dataModel.getWireParameters().getOverbendAngleValues().setCompensationValue(angle,compensationAngle);
+            dataModel.getWireParameters().getOverbendAngleValues().setCompensationValue(manager.getParsedValue(), manager.getParsedValue());
             compensationValuesTableView.refresh();
             compensationValuesTableView.getSelectionModel().clearSelection();
         }
@@ -143,31 +114,15 @@ public class WireParametersTabController {
 
     public void handleSaveParameters(){
 
-        Double newWireDiameter = null;
-        boolean wrongInput = false;
-        StringBuilder inputErrorMessage = new StringBuilder();
+        MultiTextFieldInputManager manager = new MultiTextFieldInputManager();
 
-        try{
-            newWireDiameter = Double.parseDouble(wireDiameterTF.getText());
-            if(newWireDiameter <= 0){
-                wrongInput = true;
-                inputErrorMessage.append("Wire diameter value must be greater than 0.");
-                inputErrorMessage.append(System.lineSeparator());
-            }
-        }
-        catch(Exception e){
-            wrongInput = true;
-            inputErrorMessage.append("Wire diameter value is incorrect.");
-            inputErrorMessage.append(System.lineSeparator());
-        }
-        if(wrongInput){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Input error");
-            alert.setHeaderText(inputErrorMessage.toString());
-            alert.showAndWait();
+        manager.check("Wire diameter", wireDiameterTF.getText(), InputType.POSITIVE_DOUBLE);
+
+        if(manager.isInputIncorrect()){
+            manager.getAlert().showAndWait();
         }
         else{
-            dataModel.getWireParameters().setDiameter(newWireDiameter);
+            dataModel.getWireParameters().setDiameter(manager.getParsedValue());
             Properties wireProperties = dataModel.getWireParameters().getWireProperties();
             storePropertiesToXML(wireProperties,"wire_parameters.xml");
         }

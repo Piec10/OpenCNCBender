@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<TitledPane fx:id="titledPane" alignment="CENTER" contentDisplay="CENTER" prefWidth="340.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16" fx:controller="com.opencncbender.controller.PreferredDistanceWindowController">
+  <content>
+    <AnchorPane>
+         <children>
+            <VBox spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+               <children>
+                  <GridPane vgap="10.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="preferred distance:" />
+                        <TextField fx:id="prefDistTF" promptText="0" text="0" GridPane.columnIndex="1" />
+                     </children>
+                  </GridPane>
+                  <ButtonBar prefHeight="40.0" prefWidth="200.0">
+                    <buttons>
+                      <Button fx:id="okButton" mnemonicParsing="false" onAction="#handleOK" text="OK" />
+                        <Button fx:id="addButton" mnemonicParsing="false" onAction="#handleAdd" text="Add" />
+                        <Button mnemonicParsing="false" onAction="#handleClose" text="Close" />
+                    </buttons>
+                  </ButtonBar>
+               </children>
+            </VBox>
+         </children></AnchorPane>
+  </content>
+   <graphic>
+      <HBox fx:id="title">
+         <children>
+            <Label fx:id="titleLabel" text="Label">
+               <HBox.margin>
+                  <Insets top="1.5" />
+               </HBox.margin>
+            </Label>
+            <HBox fx:id="spacer" HBox.hgrow="ALWAYS" />
+            <Button mnemonicParsing="false" onAction="#handleClose" text="X" HBox.hgrow="NEVER">
+               <font>
+                  <Font name="SansSerif Bold" size="10.0" />
+               </font>
+            </Button>
+         </children>
+         <padding>
+            <Insets left="35.0" right="5.0" />
+         </padding>
+      </HBox>
+   </graphic>
+</TitledPane>

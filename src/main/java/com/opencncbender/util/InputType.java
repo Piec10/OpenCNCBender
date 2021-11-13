@@ -13,7 +13,11 @@ public enum InputType {
         public String toString(){
             return "\\d+\\.\\d+";
         }
-    }
+    },
+    DOUBLE,
+    POSITIVE_DOUBLE,
+    ZERO_POSITIVE_DOUBLE,
+    PLUS_MINUS_180_DOUBLE
 
 
 
