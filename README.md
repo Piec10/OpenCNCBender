@@ -18,3 +18,5 @@
 
 #### Supported file formats:
 - .XYZ: list of 3D points coordinates
+
+![OpenCNCBender logo](https://github.com/Piec10/OpenCNCBender/blob/master/images/logo.png)
