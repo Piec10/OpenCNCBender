@@ -18,10 +18,21 @@ public class MainAppWindow {
 
     private boolean newSegmentWindowOpened = false;
     private boolean editSegmentWindowOpened = false;
-    private boolean prefferedDistanceWindowOpened = false;
+    private boolean preferredDistanceWindowOpened = false;
+    private boolean gCodePreviewWindowOpened = false;
+
+    private GCodePreviewWindowController gCodePreviewWindowController;
+    private Stage gCodePreviewWindow = new Stage();
+
 
 
     public MainAppWindow(Stage primaryStage, DataModel dataModel, boolean previewWindowDefaultValue) {
+
+        gCodePreviewWindow.setTitle("G-code preview");
+        gCodePreviewWindow.initModality(Modality.WINDOW_MODAL);
+        gCodePreviewWindow.setOnHiding(event -> {
+            gCodePreviewWindowOpened = false;
+        });
 
         this.dataModel = dataModel;
 
@@ -48,8 +59,6 @@ public class MainAppWindow {
 
             FXMLLoader ribbonLoader = new FXMLLoader();
             ribbonLoader.setLocation(getClass().getResource("/fxml/Ribbon.fxml"));
-            //mainWindowController.getvBox().getChildren().add(ribbonLoader.load());
-            //mainWindowController.gethBox().getChildren().add(ribbonLoader.load());
             mainWindowController.getRibbonPane().setContent(ribbonLoader.load());
             ribbonController = ribbonLoader.getController();
 
@@ -163,46 +172,51 @@ public class MainAppWindow {
 
     public void openGCodePreviewWindow(String instructions) {
 
-        try {
-            FXMLLoader gCodePreviewWindowLoader = new FXMLLoader();
-            gCodePreviewWindowLoader.setLocation(getClass().getResource("/fxml/GCodePreviewWindow.fxml"));
-            AnchorPane pane = gCodePreviewWindowLoader.load();
-            GCodePreviewWindowController gCodePreviewWindowController = gCodePreviewWindowLoader.getController();
+        if(!gCodePreviewWindowOpened) {
 
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("G-code preview");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
+            try {
+                FXMLLoader gCodePreviewWindowLoader = new FXMLLoader();
+                gCodePreviewWindowLoader.setLocation(getClass().getResource("/fxml/GCodePreviewWindow.fxml"));
+                AnchorPane pane = gCodePreviewWindowLoader.load();
+                gCodePreviewWindowController = gCodePreviewWindowLoader.getController();
 
-            gCodePreviewWindowController.initWindow(instructions, dataModel, dialogStage);
+                gCodePreviewWindowController.initWindow(instructions, dataModel, gCodePreviewWindow);
 
-            Scene scene = new Scene(pane);
-            dialogStage.setScene(scene);
-            dialogStage.showAndWait();
+                Scene scene = new Scene(pane);
+                gCodePreviewWindow.setScene(scene);
+                gCodePreviewWindowOpened = true;
+                gCodePreviewWindow.showAndWait();
+
+            } catch (Exception e) {
+
+            }
         }
-        catch (Exception e){
-
+        else{
+            gCodePreviewWindowController.setText(instructions);
+            gCodePreviewWindow.requestFocus();
         }
     }
 
     public void openPreferredDistanceWindow() {
 
-        try{
-            FXMLLoader prefDistWindowLoader = new FXMLLoader();
-            prefDistWindowLoader.setLocation(getClass().getResource("/fxml/PreferredDistanceWindow.fxml"));
-            TitledPane pane = prefDistWindowLoader.load();
-            PreferredDistanceWindowController preferredDistanceWindowController = prefDistWindowLoader.getController();
-            preferredDistanceWindowController.initModel(dataModel,this);
+        if(!preferredDistanceWindowOpened) {
+            try {
+                FXMLLoader prefDistWindowLoader = new FXMLLoader();
+                prefDistWindowLoader.setLocation(getClass().getResource("/fxml/PreferredDistanceWindow.fxml"));
+                TitledPane pane = prefDistWindowLoader.load();
+                PreferredDistanceWindowController preferredDistanceWindowController = prefDistWindowLoader.getController();
+                preferredDistanceWindowController.initModel(dataModel, this);
 
-            vBox.getChildren().add(pane);
-            prefferedDistanceWindowOpened = true;
-        }
-        catch (Exception e){
+                vBox.getChildren().add(pane);
+                preferredDistanceWindowOpened = true;
+            } catch (Exception e) {
 
+            }
         }
     }
 
     public void close(PreferredDistanceWindowController preferredDistanceWindowController) {
         vBox.getChildren().remove(preferredDistanceWindowController.getTitledPane());
-        prefferedDistanceWindowOpened = false;
+        preferredDistanceWindowOpened = false;
     }
 }
