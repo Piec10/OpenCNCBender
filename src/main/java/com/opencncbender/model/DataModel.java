@@ -357,4 +357,58 @@ public class DataModel {
         bendingSteps.set(selectedStepIndex.get(),editedStep);
         updatePolyline();
     }
+
+    public void alternateCw() {
+        if(selectedStepProperty().get() != null){
+
+            double oldAngleA = selectedStep.get().getAngleA();
+            double oldAngleB = selectedStep.get().getAngleB();
+
+            double newAngleA = oldAngleA * -1;
+            double newAngleB = oldAngleB + 180;
+
+            SingleStep alteredStep = new SingleStep(selectedStep.get().getDistanceX(), newAngleA, newAngleB);
+            int index = selectedStepIndex.get() + 1;
+
+            bendingSteps.set(selectedStepIndex.get(),alteredStep);
+
+            for(int i = index; i < bendingSteps.size(); i++){
+
+                SingleStep currentStep = bendingSteps.get(i);
+                oldAngleA = currentStep.getAngleA();
+                newAngleA = oldAngleA * -1;
+
+                alteredStep = new SingleStep(currentStep.getDistanceX(), newAngleA, currentStep.getAngleB());
+                bendingSteps.set(i,alteredStep);
+            }
+            updatePolyline();
+        }
+    }
+
+    public void alternateCcw() {
+        if(selectedStepProperty().get() != null){
+
+            double oldAngleA = selectedStep.get().getAngleA();
+            double oldAngleB = selectedStep.get().getAngleB();
+
+            double newAngleA = oldAngleA * -1;
+            double newAngleB = oldAngleB - 180;
+
+            SingleStep alteredStep = new SingleStep(selectedStep.get().getDistanceX(), newAngleA, newAngleB);
+            int index = selectedStepIndex.get() + 1;
+
+            bendingSteps.set(selectedStepIndex.get(),alteredStep);
+
+            for(int i = index; i < bendingSteps.size(); i++){
+
+                SingleStep currentStep = bendingSteps.get(i);
+                oldAngleA = currentStep.getAngleA();
+                newAngleA = oldAngleA * -1;
+
+                alteredStep = new SingleStep(currentStep.getDistanceX(), newAngleA, currentStep.getAngleB());
+                bendingSteps.set(i,alteredStep);
+            }
+            updatePolyline();
+        }
+    }
 }

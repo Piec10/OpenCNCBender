@@ -26,6 +26,16 @@ public class RibbonController {
     }
 
     @FXML
+    private void handleAlternateCw() {
+        dataModel.alternateCw();
+    }
+
+    @FXML
+    private void handleAlternateCcw() {
+        dataModel.alternateCcw();
+    }
+
+    @FXML
     private void handleAddIntermediatePoints(){
         mainAppWindow.openPreferredDistanceWindow();
         //dataModel.addIntermediatePoints();

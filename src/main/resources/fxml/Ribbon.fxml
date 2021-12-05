@@ -19,12 +19,14 @@
                         <HBox spacing="2.0">
                            <children>
                               <Button maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleNewSegment" prefHeight="26.0" prefWidth="120.0" text="New segment" textAlignment="CENTER" wrapText="true" />
+                              <Button maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleEditSegment" prefHeight="26.0" prefWidth="120.0" text="Edit segment" textAlignment="CENTER" />
                               <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#handleDeleteSegment" prefHeight="26.0" prefWidth="120.0" text="Delete segment" />
                            </children>
                         </HBox>
                         <HBox spacing="2.0">
                            <children>
-                              <Button maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleEditSegment" prefHeight="26.0" prefWidth="120.0" text="Edit segment" textAlignment="CENTER" />
+                              <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#handleAlternateCw" prefWidth="120.0" text="Alternate cw" />
+                              <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#handleAlternateCcw" prefWidth="120.0" text="Alternate ccw" />
                            </children>
                         </HBox>
                      </children>

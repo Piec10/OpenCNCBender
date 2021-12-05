@@ -13,8 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane maxHeight="1.7976931348623157E308" prefWidth="200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.opencncbender.controller.GCodeSettingsTabController">
+<AnchorPane maxHeight="1.7976931348623157E308" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.opencncbender.controller.GCodeSettingsTabController">
    <children>
       <VBox prefWidth="100.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
@@ -42,10 +41,28 @@
             </GridPane>
             <Separator prefWidth="200.0" />
             <Label text="Starting G-Code:" />
-            <TextArea fx:id="startingGCodeTA" prefHeight="100.0" prefWidth="200.0" />
+            <TextArea fx:id="startingGCodeTA" prefHeight="75.0" prefWidth="200.0" />
             <Separator prefWidth="200.0" />
             <Label text="Ending G-Code:" />
-            <TextArea fx:id="endingGCodeTA" prefHeight="100.0" prefWidth="200.0" />
+            <TextArea fx:id="endingGCodeTA" prefHeight="75.0" prefWidth="200.0" />
+            <Separator prefWidth="200.0" />
+            <CheckBox mnemonicParsing="false" text="Automatic wire clamp" />
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Open G-Code:" />
+                  <Label text="Close G-Code:" GridPane.rowIndex="1" />
+                  <TextField GridPane.columnIndex="1" />
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
             <Separator prefWidth="200.0" />
             <CheckBox fx:id="showPreviewCB" mnemonicParsing="false" text="Show preview window" />
             <Separator prefWidth="200.0" />

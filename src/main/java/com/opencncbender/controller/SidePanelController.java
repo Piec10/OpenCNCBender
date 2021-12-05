@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
@@ -41,6 +42,9 @@ public class SidePanelController {
 
     @FXML
     private Tab gCodeTab;
+
+    @FXML
+    private ScrollPane gCodeTabPane;
 
     @FXML
     private Button toggleExpandButton;
@@ -89,8 +93,12 @@ public class SidePanelController {
         return wireTab;
     }
 
-    public Tab getgCodeTab() {
+    public Tab getGCodeTab() {
         return gCodeTab;
+    }
+
+    public ScrollPane getGCodeTabPane() {
+        return gCodeTabPane;
     }
 
     public TabPane getTabPane() {

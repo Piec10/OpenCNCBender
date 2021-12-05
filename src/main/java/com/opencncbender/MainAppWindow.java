@@ -89,9 +89,9 @@ public class MainAppWindow {
 
             FXMLLoader gCodeSettingsTabLoader = new FXMLLoader();
             gCodeSettingsTabLoader.setLocation(getClass().getResource("/fxml/GCodeSettingsTab.fxml"));
-            sidePanelController.getgCodeTab().setContent(gCodeSettingsTabLoader.load());
+            sidePanelController.getGCodeTabPane().setContent(gCodeSettingsTabLoader.load());
+            //sidePanelController.getGCodeTab().setContent(gCodeSettingsTabLoader.load());
             gCodeSettingsTabController = gCodeSettingsTabLoader.getController();
-
 
             view3DWindowController = new View3DWindowController();
 
@@ -104,7 +104,6 @@ public class MainAppWindow {
             stackPane.getChildren().add(anchorPane);
 
             rootLayout.setCenter(stackPane);
-
 
         } catch (Exception e) {
             e.printStackTrace();
