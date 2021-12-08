@@ -141,4 +141,20 @@ public class BendingSteps extends MultiselectionEditableObservableList<SingleSte
         }
         return bendingStepsList;
     }
+
+    public void changeAngleAsign(int index) {
+
+        double oldAngleA, newAngleA;
+        SingleStep alteredStep;
+
+        for(int i = index; i < size(); i++){
+
+            SingleStep currentStep = get(i);
+            oldAngleA = currentStep.getAngleA();
+            newAngleA = oldAngleA * -1;
+
+            alteredStep = new SingleStep(currentStep.getDistanceX(), newAngleA, currentStep.getAngleB());
+            set(i,alteredStep);
+        }
+    }
 }

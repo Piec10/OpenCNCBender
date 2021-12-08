@@ -15,23 +15,8 @@ public class MachineGeometry {
     private DoubleProperty pinRadius = new SimpleDoubleProperty();
     private DoubleProperty pinOffset = new SimpleDoubleProperty();   //offset from rod center of rotation(0,0) in carthesian XY
     private DoubleProperty pinSpacing = new SimpleDoubleProperty();  //symmetric along X axis, when wire goes between two fixed pins
-                                    // if 0 then pinOffset must be also 0, for machines witch single pin that moves left/right
-
-    //private double bendingRadius;
-    //private double rodRadius;
-    //private double pinRadius;
-    //private double pinOffset;       //offset from rod center of rotation(0,0) in carthesian XY
-    //private double pinSpacing;      //symmetric along X axis, when wire goes between two fixed pins
-                                    // if 0 then pinOffset must be also 0, for machines witch single pin that moves left/right
-
-
-    public MachineGeometry(double bendingRadius, double rodRadius, double pinRadius, double pinOffset, double pinSpacing) {
-        this.bendingRadius.set(bendingRadius);
-        this.rodRadius.set(rodRadius);
-        this.pinRadius.set(pinRadius);
-        this.pinOffset.set(pinOffset);
-        this.pinSpacing.set(pinSpacing);
-    }
+                                                                     // if 0 then pinOffset must be also 0, for machines witch single pin that moves left/right
+    private DoubleProperty bAngleCompValue = new SimpleDoubleProperty();
 
     public MachineGeometry(Properties defaultMachineGeometry) {
 
@@ -40,6 +25,7 @@ public class MachineGeometry {
         this.pinRadius.set(Double.parseDouble(defaultMachineGeometry.getProperty("pinRadius","2.75")));
         this.pinOffset.set(Double.parseDouble(defaultMachineGeometry.getProperty("pinOffset","0.0")));
         this.pinSpacing.set(Double.parseDouble(defaultMachineGeometry.getProperty("pinSpacing","0.0")));
+        this.bAngleCompValue.set(Double.parseDouble(defaultMachineGeometry.getProperty("bAngleCompValue","0.0")));
     }
 
     public double getBendingRadius() {
@@ -62,6 +48,10 @@ public class MachineGeometry {
         return pinSpacing.get();
     }
 
+    public double getbAngleCompValue() {
+        return bAngleCompValue.get();
+    }
+
     public DoubleProperty bendingRadiusProperty() {
         return bendingRadius;
     }
@@ -80,6 +70,10 @@ public class MachineGeometry {
 
     public DoubleProperty pinSpacingProperty() {
         return pinSpacing;
+    }
+
+    public DoubleProperty bAngleCompValueProperty() {
+        return bAngleCompValue;
     }
 
     public void setBendingRadius(double bendingRadius) {
@@ -102,6 +96,10 @@ public class MachineGeometry {
         this.pinSpacing.set(pinSpacing);
     }
 
+    public void setbAngleCompValue(double bAngleCompValue) {
+        this.bAngleCompValue.set(bAngleCompValue);
+    }
+
     public Properties getMachineGeometryProperties() {
 
         Properties properties = new Properties();
@@ -111,6 +109,7 @@ public class MachineGeometry {
         properties.setProperty("pinRadius",Double.toString(pinRadius.get()));
         properties.setProperty("pinOffset",Double.toString(pinOffset.get()));
         properties.setProperty("pinSpacing",Double.toString(pinSpacing.get()));
+        properties.setProperty("bAngleCompValue",Double.toString(bAngleCompValue.get()));
 
         return properties;
     }

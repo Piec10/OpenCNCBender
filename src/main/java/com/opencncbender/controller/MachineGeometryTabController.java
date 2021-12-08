@@ -30,6 +30,9 @@ public class MachineGeometryTabController {
     private TextField pinSpacingTF;
 
     @FXML
+    private TextField bAngleCompValueTF;
+
+    @FXML
     private void initialize(){
 
     }
@@ -45,6 +48,7 @@ public class MachineGeometryTabController {
         pinRadiusTF.setText(Double.toString(dataModel.getMachineGeometry().getPinRadius()));
         pinOffsetTF.setText(Double.toString(dataModel.getMachineGeometry().getPinOffset()));
         pinSpacingTF.setText(Double.toString(dataModel.getMachineGeometry().getPinSpacing()));
+        bAngleCompValueTF.setText(Double.toString(dataModel.getMachineGeometry().getbAngleCompValue()));
     }
 
     public void handleSaveParameters() {
@@ -56,6 +60,7 @@ public class MachineGeometryTabController {
         manager.check("Pin radius", pinRadiusTF.getText(), InputType.POSITIVE_DOUBLE);
         manager.check("Pin offset", pinOffsetTF.getText(), InputType.DOUBLE);
         manager.check("Pin spacing", pinSpacingTF.getText(), InputType.ZERO_POSITIVE_DOUBLE);
+        manager.check("B compensation angle", bAngleCompValueTF.getText(), InputType.DOUBLE);
 
         if(manager.isInputIncorrect()){
             manager.getAlert().showAndWait();
@@ -66,6 +71,7 @@ public class MachineGeometryTabController {
             dataModel.getMachineGeometry().setPinRadius(manager.getParsedValue());
             dataModel.getMachineGeometry().setPinOffset(manager.getParsedValue());
             dataModel.getMachineGeometry().setPinSpacing(manager.getParsedValue());
+            dataModel.getMachineGeometry().setbAngleCompValue(manager.getParsedValue());
 
             Properties machineGeometry = dataModel.getMachineGeometry().getMachineGeometryProperties();
             storePropertiesToXML(machineGeometry,"machine_geometry.xml");

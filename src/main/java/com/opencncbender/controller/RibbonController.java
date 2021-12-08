@@ -3,6 +3,7 @@ package com.opencncbender.controller;
 import com.opencncbender.MainAppWindow;
 import com.opencncbender.model.DataModel;
 import com.opencncbender.util.ActionType;
+import com.opencncbender.util.Direction;
 import javafx.fxml.FXML;
 
 public class RibbonController {
@@ -27,18 +28,17 @@ public class RibbonController {
 
     @FXML
     private void handleAlternateCw() {
-        dataModel.alternateCw();
+        dataModel.alternateAngles(Direction.CLOCKWISE);
     }
 
     @FXML
     private void handleAlternateCcw() {
-        dataModel.alternateCcw();
+        dataModel.alternateAngles(Direction.COUNTERCLOCKWISE);
     }
 
     @FXML
     private void handleAddIntermediatePoints(){
         mainAppWindow.openPreferredDistanceWindow();
-        //dataModel.addIntermediatePoints();
     }
 
     @FXML

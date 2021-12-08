@@ -1,6 +1,7 @@
 package com.opencncbender.model;
 
 import com.opencncbender.logic.*;
+import com.opencncbender.util.Direction;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -358,56 +359,36 @@ public class DataModel {
         updatePolyline();
     }
 
-    public void alternateCw() {
+    public void alternateAngles(Direction direction) {
         if(selectedStepProperty().get() != null){
 
             double oldAngleA = selectedStep.get().getAngleA();
             double oldAngleB = selectedStep.get().getAngleB();
 
             double newAngleA = oldAngleA * -1;
-            double newAngleB = oldAngleB + 180;
+            double newAngleB = 0.0;
+
+            switch (direction){
+                case CLOCKWISE:
+                    newAngleB = oldAngleB + 180;
+                    if(newAngleB >= 360){
+                        newAngleB = newAngleB - 360;
+                    }
+                    break;
+                case COUNTERCLOCKWISE:
+                    newAngleB = oldAngleB - 180;
+                    if(newAngleB <= -360){
+                        newAngleB = newAngleB + 360;
+                    }
+                    break;
+            }
 
             SingleStep alteredStep = new SingleStep(selectedStep.get().getDistanceX(), newAngleA, newAngleB);
             int index = selectedStepIndex.get() + 1;
 
             bendingSteps.set(selectedStepIndex.get(),alteredStep);
+            bendingSteps.changeAngleAsign(index);
 
-            for(int i = index; i < bendingSteps.size(); i++){
-
-                SingleStep currentStep = bendingSteps.get(i);
-                oldAngleA = currentStep.getAngleA();
-                newAngleA = oldAngleA * -1;
-
-                alteredStep = new SingleStep(currentStep.getDistanceX(), newAngleA, currentStep.getAngleB());
-                bendingSteps.set(i,alteredStep);
-            }
-            updatePolyline();
-        }
-    }
-
-    public void alternateCcw() {
-        if(selectedStepProperty().get() != null){
-
-            double oldAngleA = selectedStep.get().getAngleA();
-            double oldAngleB = selectedStep.get().getAngleB();
-
-            double newAngleA = oldAngleA * -1;
-            double newAngleB = oldAngleB - 180;
-
-            SingleStep alteredStep = new SingleStep(selectedStep.get().getDistanceX(), newAngleA, newAngleB);
-            int index = selectedStepIndex.get() + 1;
-
-            bendingSteps.set(selectedStepIndex.get(),alteredStep);
-
-            for(int i = index; i < bendingSteps.size(); i++){
-
-                SingleStep currentStep = bendingSteps.get(i);
-                oldAngleA = currentStep.getAngleA();
-                newAngleA = oldAngleA * -1;
-
-                alteredStep = new SingleStep(currentStep.getDistanceX(), newAngleA, currentStep.getAngleB());
-                bendingSteps.set(i,alteredStep);
-            }
             updatePolyline();
         }
     }

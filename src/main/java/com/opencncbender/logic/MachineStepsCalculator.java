@@ -8,7 +8,6 @@ import java.awt.geom.Point2D;
  */
 public class MachineStepsCalculator {
 
-    //private Steps<SingleStep> bendingSteps;
     private MachineGeometry machineGeometry;
     private WireParameters wireParameters;
 
@@ -16,21 +15,20 @@ public class MachineStepsCalculator {
 
     private double minimumArcRadius;
 
-    //private ArrayList<SingleStep> machineStepsList;
-
 
     public MachineStepsCalculator(MachineGeometry machineGeometry, WireParameters wireParameters) {
-        //this.bendingSteps = bendingSteps;
+
         this.machineGeometry = machineGeometry;
         this.wireParameters = wireParameters;
         this.minimumArcRadius = machineGeometry.getPinRadius() + wireParameters.getDiameter()/2;
 
-        //machineStepsList = new ArrayList<>(bendingSteps.size());
     }
 
     public Steps calculateMachineSteps(BendingSteps bendingSteps){
 
         machineSteps = new Steps();
+
+        double compensationAngle = machineGeometry.getbAngleCompValue();
 
         double angleWithOverbend, arcLength, wireDistance, wireRotationAngle, wireBendAngle;
         double lastExtension = 0.0;
@@ -40,13 +38,10 @@ public class MachineStepsCalculator {
         SingleStep currentStep;
         SingleMachineStep currentMachineStep;
 
-        //System.out.println(bendingSteps.size());
-
         for(int i=0; i < bendingSteps.size(); i++){
 
             currentStep = bendingSteps.get(i);
             angleWithOverbend = calculateAngleWithOverbend(currentStep.getAngleA());
-            //System.out.println(angleWithOverbend);
 
             arcLength = 2 * Math.PI * minimumArcRadius * Math.abs(angleWithOverbend)/360;
             currentExtension = minimumArcRadius * Math.tan(Math.toRadians(Math.abs(angleWithOverbend)/2));
@@ -62,22 +57,28 @@ public class MachineStepsCalculator {
             //System.out.println(arcLength);
             //System.out.println(currentExtension);
 
-            //Rotating and moving wire to bend start position
+            bendDirection = 0;
+            if(angleWithOverbend > 0) bendDirection = 1;
+            wireBendAngle = calculateMachineAngle(angleWithOverbend);
+
             wireDistance = currentStep.getDistanceX() - lastExtension - currentExtension;
-            wireRotationAngle = currentStep.getAngleB();
+
+            if(bendDirection == 0) {
+                wireRotationAngle = currentStep.getAngleB() + compensationAngle;
+            }
+            else{
+                wireRotationAngle = currentStep.getAngleB() - compensationAngle;
+            }
+
+            //Rotating and moving wire to bend start position
             currentMachineStep = new SingleMachineStep(wireDistance,wireRotationAngle);
             machineSteps.addStep(currentMachineStep);
 
             //Bending
-            bendDirection = 0;
-            if(angleWithOverbend > 0) bendDirection = 1;
-            wireBendAngle = calculateMachineAngle(angleWithOverbend);
             currentMachineStep = new SingleMachineStep(arcLength,wireBendAngle,bendDirection);
             machineSteps.addStep(currentMachineStep);
 
             lastExtension = currentExtension;
-
-            //System.out.println(wireBendAngle);
         }
 
         return machineSteps;

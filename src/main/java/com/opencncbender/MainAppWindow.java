@@ -137,7 +137,8 @@ public class MainAppWindow {
                 if(!editSegmentWindowOpened){
                     createSegmentWindow(type);
                     editSegmentWindowOpened = true;
-            }
+                }
+                break;
         }
     }
 
