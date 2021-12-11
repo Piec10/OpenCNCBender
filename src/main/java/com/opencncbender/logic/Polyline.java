@@ -8,6 +8,8 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.opencncbender.util.IsZeroComparator.isZero;
+
 public class Polyline extends MultiselectionEditableObservableList<Point3D> {
 
     public Polyline() {
@@ -38,7 +40,6 @@ public class Polyline extends MultiselectionEditableObservableList<Point3D> {
         for(int i=0; i< bendingSteps.size(); i++){
             addPointsForBendingStep(bendingSteps.get(i));
         }
-
     }
 
     private void addPointsForBendingStep(SingleStep newBendingStep) {
@@ -55,13 +56,6 @@ public class Polyline extends MultiselectionEditableObservableList<Point3D> {
             polylineZAxisRotation(Math.toRadians(newBendingStep.getAngleA()));
         }
         list.add(new Point3D(0,0,0));
-
-    }
-
-    private boolean isZero(double number){
-
-        if(Math.abs(number) < 0.0001) return true;
-        else return false;
     }
 
     public String getAsString(){

@@ -19,15 +19,6 @@ public class XyzFileReader {
 
     }
 
-    /*public Steps readFile(String filepath){
-
-        ArrayList<Point3D> polyline;
-        polyline = readPolyline(filepath);
-
-        Steps<SingleStep> bendingSteps = generateStepsFromPolyline(polyline);
-        return bendingSteps;
-    }*/
-
     public BendingSteps generateStepsFromPolyline(List<Point3D> polyline) {
         BendingSteps bendingSteps = new BendingSteps();
 

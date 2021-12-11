@@ -24,9 +24,13 @@
                     <menus>
                       <Menu mnemonicParsing="false" text="File">
                         <items>
+                              <MenuItem mnemonicParsing="false" onAction="#handleOpenBendFile" text="Open .bend" />
+                              <MenuItem mnemonicParsing="false" onAction="#handleSaveBendFile" text="Save .bend" />
+                              <SeparatorMenuItem mnemonicParsing="false" />
                               <MenuItem mnemonicParsing="false" onAction="#handleOpenXYZFile" text="Open .XYZ" />
                               <MenuItem mnemonicParsing="false" onAction="#handleSaveXYZFile" text="Save .XYZ" />
-                          <MenuItem mnemonicParsing="false" onAction="#handleCloseFile" text="Close .XYZ" />
+                              <SeparatorMenuItem mnemonicParsing="false" />
+                          <MenuItem mnemonicParsing="false" onAction="#handleCloseFile" text="Close File" />
                               <SeparatorMenuItem mnemonicParsing="false" />
                               <MenuItem mnemonicParsing="false" onAction="#handleExportGCodeFile" text="Export .gcode" />
                               <SeparatorMenuItem mnemonicParsing="false" />

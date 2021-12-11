@@ -1,6 +1,5 @@
 package com.opencncbender.controller;
 
-import com.opencncbender.MainApp;
 import com.opencncbender.MainAppWindow;
 import com.opencncbender.model.DataModel;
 import com.opencncbender.util.TextFileWriter;
@@ -8,15 +7,11 @@ import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -58,6 +53,40 @@ public class MainWindowController {
         this.dataModel = dataModel;
         this.mainAppWindow = mainAppWindow;
         showPreviewWindow.set(previewWindowDefaultValue);
+    }
+
+    @FXML
+    private void handleOpenBendFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("BEND", "*.bend"));
+        String currentPath = Paths.get(".").toAbsolutePath().normalize().toString();
+        fileChooser.setInitialDirectory(new File(currentPath));
+
+        File selectedFile = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
+        if (selectedFile != null) {
+            dataModel.openBendFile(selectedFile);
+        }
+    }
+
+    @FXML
+    private void handleSaveBendFile() {
+        String bendingStepsAsString;
+        bendingStepsAsString = dataModel.getBendingSteps().getAsString();
+
+        if(bendingStepsAsString != null) {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("BEND", "*.bend"));
+            String currentPath = Paths.get(".").toAbsolutePath().normalize().toString();
+            fileChooser.setInitialDirectory(new File(currentPath));
+            String initialFileName = TextFileWriter.changeExtension(dataModel.currentFilenameProperty().get(), "modified.bend");
+            fileChooser.setInitialFileName(initialFileName);
+
+            File selectedFile = fileChooser.showSaveDialog(menuBar.getScene().getWindow());
+
+            if (selectedFile != null) {
+                TextFileWriter.saveTextFile(selectedFile, bendingStepsAsString);
+            }
+        }
     }
 
     @FXML

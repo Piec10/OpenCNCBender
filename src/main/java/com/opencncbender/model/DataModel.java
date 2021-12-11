@@ -75,6 +75,10 @@ public class DataModel {
         return selectedPointsList;
     }
 
+    public BendingSteps getBendingSteps() {
+        return bendingSteps;
+    }
+
     public ObservableList<SingleStep> getBendingStepsList() {
         return bendingSteps.get();
     }
@@ -165,6 +169,15 @@ public class DataModel {
             maxDistance.set(0.0);
             preferredDistance.set(0.0);
         }
+    }
+
+    public void openBendFile(File selectedFile) {
+
+        selectedPointsList.clear();
+
+        bendingSteps.reconstruct(BendFileReader.readFile(selectedFile.getPath()));
+        currentFilename.set(selectedFile.getName());
+        updatePolyline();
     }
 
     public void openXYZFile(File selectedFile) {

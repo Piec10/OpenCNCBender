@@ -2,9 +2,9 @@ package com.opencncbender.logic;
 
 import javafx.geometry.Point3D;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-
 import java.util.ArrayList;
 import java.util.List;
+import static com.opencncbender.util.IsZeroComparator.isZero;
 
 public class BendingSteps extends MultiselectionEditableObservableList<SingleStep> {
 
@@ -18,6 +18,11 @@ public class BendingSteps extends MultiselectionEditableObservableList<SingleSte
     public void reconstruct(Polyline polyline){
         list.clear();
         generateStepsFromPolyline(polyline);
+    }
+
+    public void reconstruct(List<SingleStep> readFile) {
+        list.clear();
+        addAll(readFile);
     }
 
     private void generateStepsFromPolyline(Polyline polyline) {
@@ -120,12 +125,6 @@ public class BendingSteps extends MultiselectionEditableObservableList<SingleSte
         else return false;
     }
 
-    private boolean isZero(double number){
-
-        if(Math.abs(number) < 0.0001) return true;
-        else return false;
-    }
-
     public void add(double lengthX, double angleA, double angleB){
         SingleStep newBendingStep = new SingleStep(lengthX,angleA,angleB);
         list.add(newBendingStep);
@@ -156,5 +155,27 @@ public class BendingSteps extends MultiselectionEditableObservableList<SingleSte
             alteredStep = new SingleStep(currentStep.getDistanceX(), newAngleA, currentStep.getAngleB());
             set(i,alteredStep);
         }
+    }
+
+    public String getAsString() {
+        StringBuilder outputString = new StringBuilder();
+
+        if(list != null) {
+            for (int i = 0; i < list.size(); i++) {
+
+                SingleStep currentStep = list.get(i);
+                outputString.append("X");
+                outputString.append(currentStep.getDistanceX());
+                outputString.append(" ");
+                outputString.append("A");
+                outputString.append(currentStep.getAngleA());
+                outputString.append(" ");
+                outputString.append("B");
+                outputString.append(currentStep.getAngleB());
+                outputString.append(System.lineSeparator());
+            }
+            return outputString.toString();
+        }
+        else return null;
     }
 }
