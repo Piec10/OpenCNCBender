@@ -1,5 +1,7 @@
 package com.opencncbender.logic;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -28,6 +30,10 @@ public class GCodeGenerator {
 
     private StringProperty startingGCode = new SimpleStringProperty("");
     private StringProperty endingGCode = new SimpleStringProperty("");
+    private StringProperty openClampGCode = new SimpleStringProperty("");
+    private StringProperty closeClampGCode = new SimpleStringProperty("");
+
+    private BooleanProperty wireClamp = new SimpleBooleanProperty(false);
 
     private List<String> instructionsList;
 
@@ -64,6 +70,8 @@ public class GCodeGenerator {
 
         startingGCode.set(defaultGCodeSettings.getProperty("startingGCode",""));
         endingGCode.set(defaultGCodeSettings.getProperty("endingGCode",""));
+        openClampGCode.set(defaultGCodeSettings.getProperty("openClampGCode",""));
+        closeClampGCode.set(defaultGCodeSettings.getProperty("closeClampGCode",""));
     }
 
     public GCodeGenerator(Properties defaultGCodeSettings, MachineGeometry machineGeometry, WireParameters wireParameters) {
@@ -76,6 +84,9 @@ public class GCodeGenerator {
         angleFeedrate = Double.parseDouble(defaultGCodeSettings.getProperty("angleFeedrate","18000.0"));
         startingGCode.set(defaultGCodeSettings.getProperty("startingGCode",""));
         endingGCode.set(defaultGCodeSettings.getProperty("endingGCode",""));
+        openClampGCode.set(defaultGCodeSettings.getProperty("openClampGCode",""));
+        closeClampGCode.set(defaultGCodeSettings.getProperty("closeClampGCode",""));
+        wireClamp.set(Boolean.parseBoolean(defaultGCodeSettings.getProperty("wireClamp","false")));
     }
 
     private void calculateRodTouchAngle() {
@@ -124,9 +135,15 @@ public class GCodeGenerator {
         if(startingGCode.get() != "") {
             instructionsList.add(startingGCode.get());
         }
+        if(isWireClamp()){
+            instructionsList.add(openClampGCode.get());
+        }
 
         instructionsList.add("G0 X" + totalWireLength);
         instructionsList.add("M0");
+        if(isWireClamp()){
+            instructionsList.add(closeClampGCode.get());
+        }
 
         safePositionChangeDir(firstBendDirection);
 
@@ -185,6 +202,9 @@ public class GCodeGenerator {
         }
         if(endingGCode.get() != "") {
             instructionsList.add(endingGCode.get());
+        }
+        if(isWireClamp()){
+            instructionsList.add(openClampGCode.get());
         }
 
         return instructionsList;
@@ -268,6 +288,14 @@ public class GCodeGenerator {
         this.endingGCode.set(endingGCode);
     }
 
+    public void setOpenClampGCode(String openClampGCode) {
+        this.openClampGCode.set(openClampGCode);
+    }
+
+    public void setCloseClampGCcode(String closeClampGCcode) {
+        this.closeClampGCode.set(closeClampGCcode);
+    }
+
     public double getzFallDistance() {
         return zFallDistance;
     }
@@ -300,16 +328,51 @@ public class GCodeGenerator {
         this.angleFeedrate = angleFeedrate;
     }
 
+    public String getOpenClampGCode() {
+        return openClampGCode.get();
+    }
+
+    public StringProperty openClampGCodeProperty() {
+        return openClampGCode;
+    }
+
+    public String getCloseClampGCode() {
+        return closeClampGCode.get();
+    }
+
+    public StringProperty closeClampGCodeProperty() {
+        return closeClampGCode;
+    }
+
+    public void setCloseClampGCode(String closeClampGCode) {
+        this.closeClampGCode.set(closeClampGCode);
+    }
+
+    public boolean isWireClamp() {
+        return wireClamp.get();
+    }
+
+    public BooleanProperty wireClampProperty() {
+        return wireClamp;
+    }
+
+    public void setWireClamp(boolean wireClamp) {
+        this.wireClamp.set(wireClamp);
+    }
+
     public Properties getGCodeProperties() {
 
         Properties properties = new Properties();
 
         properties.setProperty("startingGCode",startingGCode.get());
         properties.setProperty("endingGCode",endingGCode.get());
+        properties.setProperty("openClampGCode",openClampGCode.get());
+        properties.setProperty("closeClampGCode",closeClampGCode.get());
         properties.setProperty("zFallDistance",Double.toString(zFallDistance));
         properties.setProperty("safeAngleOffset",Double.toString(rodSafeAngleOffset));
         properties.setProperty("wireFeedrate",Double.toString(wireFeedrate));
         properties.setProperty("angleFeedrate",Double.toString(angleFeedrate));
+        properties.setProperty("wireClamp",String.valueOf(wireClamp.get()));
 
         return properties;
     }

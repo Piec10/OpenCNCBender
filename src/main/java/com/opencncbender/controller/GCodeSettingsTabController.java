@@ -35,7 +35,16 @@ public class GCodeSettingsTabController {
     private TextArea endingGCodeTA;
 
     @FXML
+    private TextArea openClampGCodeTA;
+
+    @FXML
+    private TextArea closeClampGCodeTA;
+
+    @FXML
     private CheckBox showPreviewCB;
+
+    @FXML
+    private CheckBox wireClampGCodeCB;
 
     public void initModel(DataModel dataModel, MainWindowController mainWindowController) {
         if (this.dataModel != null) {
@@ -45,8 +54,32 @@ public class GCodeSettingsTabController {
         showPreviewCB.setSelected(mainWindowController.showPreviewWindowProperty().get());
         mainWindowController.showPreviewWindowProperty().bindBidirectional(showPreviewCB.selectedProperty());
 
+        wireClampGCodeCB.setSelected(dataModel.getGCodeGenerator().isWireClamp());
+        dataModel.getGCodeGenerator().wireClampProperty().bindBidirectional(wireClampGCodeCB.selectedProperty());
+        dataModel.getGCodeGenerator().wireClampProperty().addListener(((observable, oldValue, newValue) -> {
+            if(newValue){
+                openClampGCodeTA.setDisable(false);
+                closeClampGCodeTA.setDisable(false);
+            }
+            else{
+                openClampGCodeTA.setDisable(true);
+                closeClampGCodeTA.setDisable(true);
+            }
+        }));
+
+        if(wireClampGCodeCB.isSelected()){
+            openClampGCodeTA.setDisable(false);
+            closeClampGCodeTA.setDisable(false);
+        }
+        else{
+            openClampGCodeTA.setDisable(true);
+            closeClampGCodeTA.setDisable(true);
+        }
+
         startingGCodeTA.setText(dataModel.getGCodeGenerator().getStartingGCode());
         endingGCodeTA.setText(dataModel.getGCodeGenerator().getEndingGCode());
+        openClampGCodeTA.setText(dataModel.getGCodeGenerator().getOpenClampGCode());
+        closeClampGCodeTA.setText(dataModel.getGCodeGenerator().getCloseClampGCode());
 
         zFallDistanceTF.setText(Double.toString(dataModel.getGCodeGenerator().getzFallDistance()));
         safeAngleOffsetTF.setText(Double.toString(dataModel.getGCodeGenerator().getRodSafeAngleOffset()));
@@ -58,6 +91,8 @@ public class GCodeSettingsTabController {
 
         dataModel.getGCodeGenerator().setStartingGCode(startingGCodeTA.getText());
         dataModel.getGCodeGenerator().setEndingGCode(endingGCodeTA.getText());
+        dataModel.getGCodeGenerator().setOpenClampGCode(openClampGCodeTA.getText());
+        dataModel.getGCodeGenerator().setCloseClampGCcode(closeClampGCodeTA.getText());
 
         MultiTextFieldInputManager manager = new MultiTextFieldInputManager();
 
